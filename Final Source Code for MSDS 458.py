@@ -15,8 +15,15 @@ import shap
 import matplotlib.pyplot as plt
 import seaborn as sns
 import warnings
+import random
+import os
+os.environ['PYTHONHASHSEED'] = '42'
 
 warnings.simplefilter(action = 'ignore', category = FutureWarning)
+
+random.seed(24)
+np.random.seed(24)
+tf.random.set_seed(24)
 
 # Load data
 
@@ -97,7 +104,7 @@ print("X shape:", X.shape)
 print("y shape:", y.shape)
 
 X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42
+    X, y, test_size=0.2, random_state=24
 )
 
 print("\nSplit sizes:")
@@ -113,7 +120,7 @@ X_test.loc[:, numeric_cols] = scaler.transform(X_test[numeric_cols])
 
 # Logistic regression analysis
 
-logreg = LogisticRegression(max_iter=200)
+logreg = LogisticRegression(max_iter=200, random_state = 24)
 logreg.fit(X_train, y_train)
 lr_preds = logreg.predict(X_test)
 
